@@ -64,7 +64,7 @@ test:
 	.fpu vfp
 	.type	main, %function
 main:
-    @loads string and
+    @loads string and passes number to function for calculation
 	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
