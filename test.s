@@ -19,6 +19,7 @@
 	.fpu vfp
 	.type	test, %function
 test:
+    @ returns n % 10
 	@ args = 0, pretend = 0, frame = 8
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
@@ -44,13 +45,16 @@ test:
 	ldr	fp, [sp], #4
 	bx	lr
 .L4:
+    @dont know
 	.align	2
 .L3:
+    @dont know what this is for
 	.word	1717986919
 	.size	test, .-test
 	.section	.rodata
 	.align	2
 .LC0:
+    @saves string as data segment
 	.ascii	"The digit in the ones place of %d is %d\012\000"
 	.text
 	.align	2
@@ -60,6 +64,7 @@ test:
 	.fpu vfp
 	.type	main, %function
 main:
+    @loads string and
 	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
@@ -70,12 +75,12 @@ main:
 	ldr	r3, .L7
 	str	r3, [fp, #-8]
 	ldr	r0, [fp, #-8]
-	bl	test
-	mov	r3, r0
+	bl	test        @calls test function
+	mov	r3, r0      @stores returned values
 	mov	r2, r3
 	ldr	r1, [fp, #-8]
 	ldr	r0, .L7+4
-	bl	printf
+	bl	printf      @prints the ascii string
 	mov	r3, #0
 	mov	r0, r3
 	sub	sp, fp, #4
@@ -84,6 +89,7 @@ main:
 .L8:
 	.align	2
 .L7:
+    @stores 294 in memory
 	.word	294
 	.word	.LC0
 	.size	main, .-main
